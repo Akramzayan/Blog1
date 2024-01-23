@@ -10,6 +10,7 @@ module.exports = {
         dark:{
           hard:"#0D2436",
           soft:"#183B56",
+          light:"#5A7184",
 
         }
       },

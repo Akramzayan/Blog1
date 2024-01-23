@@ -1,9 +1,11 @@
 import React from 'react'
-import MainLayout from '../componenets/MainLayout'
+import MainLayout from '../../componenets/MainLayout'
+import Hero from './container/Hero'
 
 const HomePage = () => {
   return (
     <MainLayout>
+      <Hero/>
     </MainLayout>  )
 }
 
