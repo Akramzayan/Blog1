@@ -127,7 +127,7 @@ const Footer = () => {
             <AiFillHeart className="w-7 h-auto" />
           </div>
           <p className="font-bold italic text-dark-light">
-            Copyright © 2024 Akram. Crafted with love.
+            Copyright © 2024 Akram.
           </p>
         </div>
       </footer>
