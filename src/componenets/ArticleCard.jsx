@@ -23,7 +23,7 @@ const ArticleCard = () => {
           voluptatem dolor illo, voluptatum aut esse? Quam ea quas minus, dicta
           laboriosam quo! Suscipit.
         </p>
-        <div className="flex justify-between flex-nowrap items-center mt-6 ">
+        <div className="flex justify-between flex-nowrap items-center mt-6" >
           <div className="flex items-center gap-x-2 md:gap-x-2.5">
             <img src={images.akram} alt="Post Profile" className="w-9 h-9 md:w-10 md:h-10 rounded-full"/>
             <div className="flex flex-col ">
