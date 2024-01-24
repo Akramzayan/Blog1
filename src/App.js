@@ -1,5 +1,6 @@
 
 import './App.css';
+import Footer from './componenets/Footer';
 import HomePage from './pages/home/HomePage';
 import Articles from './pages/home/container/Articles';
 import CTA from './pages/home/container/CTA';
@@ -11,6 +12,7 @@ function App() {
       <HomePage/>
       <Articles/>
       <CTA/>
+      <Footer/>
      
     </div>
   );
