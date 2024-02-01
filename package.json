@@ -2,7 +2,7 @@
   "name": "blog",
   "version": "0.1.0",
   "private": true,
-  "porxy":"http://localhost:5000",
+  "proxy":"http://localhost:5000",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@reduxjs/toolkit": "^2.1.0",
