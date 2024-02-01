@@ -2,8 +2,23 @@ import React from "react";
 import MainLayout from "../../../componenets/MainLayout";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
+import { useMutation } from "@tanstack/react-query";
+import { signup } from "../../../services/index/users";
+import toast from "react-hot-toast";
 const RegisterPage = () => {
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ name, email, password }) => {
+      return signup({ name, email, password });
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -19,9 +34,10 @@ const RegisterPage = () => {
     mode: "onChange",
   });
   const submitHandler = (data) => {
-    console.log(data)
+    const { name, email, password } = data;
+    mutate({ name, email, password });
   };
-  const password = watch("password")
+  const password = watch("password");
   return (
     <MainLayout>
       <section className="container mx-auto px-5 py-10">
@@ -110,12 +126,10 @@ const RegisterPage = () => {
                     value: true,
                     message: "The Password Is Required",
                   },
-                  minLength:{
-                    value:8,
-                    message:"The Password Must Be At Least 8 Characters",
-
-
-                  }
+                  minLength: {
+                    value: 8,
+                    message: "The Password Must Be At Least 8 Characters",
+                  },
                 })}
                 placeholder="Enter Your Password"
                 className={`placeholder:text-[#959ead] text-dark-hard rounded-lg px-5 py-4 font-bold block outline-none border ${
@@ -168,7 +182,7 @@ const RegisterPage = () => {
             </Link>
             <button
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || isLoading}
               className="bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg my-6 disabled:opacity-80 disabled:cursor-not-allowed "
             >
               Register
