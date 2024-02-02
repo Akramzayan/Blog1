@@ -3,21 +3,47 @@ import MainLayout from "../../../componenets/MainLayout";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {useDispatch,useSelector} from 'react-redux';
-import { useQuery } from "@tanstack/react-query";
-import {getUserProfile} from "../../../services/index/users";
+import { useMutation, useQuery,useQueryClient } from "@tanstack/react-query";
+import {getUserProfile, updateProfile} from "../../../services/index/users";
 import ProfilePicture from "../../../componenets/ProfilePicture";
+import { userActions } from "../../../store/reducers/userReducer";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
 const dispatch = useDispatch();
 const userState = useSelector(state => state.user);
 const navigate = useNavigate();
+const queryClient = useQueryClient();
 const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQuery({
     queryFn:() => {
         return getUserProfile({token:userState.userInfo.token});
     },
     queryKey:['profile']
 })
-  
+
+const { mutate, isLoading } = useMutation({
+    mutationFn: ({ name, email, password }) => {
+      return updateProfile({
+        token:userState.userInfo.token,
+        userData:{name,email,password},
+       
+      })
+    },
+    onSuccess: (data) => {
+      dispatch(userActions.setUserInfo(data));
+      localStorage.setItem('account',JSON.stringify(data));
+      queryClient.invalidateQueries({
+        queryKey:['profile']
+      })
+      toast.success('Profile Updated Successfully');
+      
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
 
   useEffect(() => {
     if (!userState.userInfo) {
@@ -34,7 +60,7 @@ const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQue
       name: "",
       email: "",
       password: "",
-     
+
     },
     values:{
         name:profileIsLoading ? "" : profileData.name,
@@ -43,15 +69,18 @@ const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQue
     mode: "onChange",
   });
   const submitHandler = (data) => {
+    const {name,email,password}=data;
+    mutate({name,email,password});
 
   };
- 
+
   return (
     <MainLayout>
       <section className="container mx-auto px-5 py-10">
         <div className="w-full max-w-sm mx-auto">
+            <p>{profileData?.name}</p>
             <ProfilePicture avatar={profileData?.avatar}/>
-         
+
           <form onSubmit={handleSubmit(submitHandler)}>
             <div className="flex flex-col mb-6 w-full">
               <label
@@ -123,22 +152,13 @@ const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQue
                 htmlFor="password"
                 className="text-[#5a7184] font-semibold block"
               >
-                Password
+               New Password (Optional)
               </label>
               <input
                 type="password"
                 id="password"
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "The Password Is Required",
-                  },
-                  minLength: {
-                    value: 8,
-                    message: "The Password Must Be At Least 8 Characters",
-                  },
-                })}
-                placeholder="Enter Your Password"
+                {...register("password")}
+                placeholder="Enter New  Password"
                 className={`placeholder:text-[#959ead] text-dark-hard rounded-lg px-5 py-4 font-bold block outline-none border ${
                   errors.password ? "border-red-500" : "border-[#c3cad9] "
                 }`}
@@ -149,8 +169,8 @@ const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQue
                 </p>
               )}
             </div>
-            
-          
+
+
             <button
               type="submit"
               disabled={!isValid || profileIsLoading }
@@ -158,7 +178,7 @@ const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQue
             >
               Register
             </button>
-          
+
           </form>
         </div>
       </section>

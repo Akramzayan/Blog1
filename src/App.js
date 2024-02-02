@@ -8,6 +8,7 @@ import LoginPage from './pages/home/login/LoginPage';
 import ProfilePage from './pages/home/profile/ProfilePage';
 
 
+
 function App() {
   return (
     <div className="App font-opensans">
@@ -17,6 +18,8 @@ function App() {
         <Route  path='/register' element={<RegisterPage/>} />
         <Route  path='/login' element={<LoginPage/>} />
         <Route  path='/profile' element={<ProfilePage/>} />
+       
+     
       </Routes>
       <Toaster/>
 
