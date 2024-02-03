@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import {useDispatch,useSelector} from 'react-redux';
 import { useMutation, useQuery,useQueryClient } from "@tanstack/react-query";
 import {getUserProfile, updateProfile} from "../../../services/index/users";
-import ProfilePicture from "../../../componenets/ProfilePicture";
 import { userActions } from "../../../store/reducers/userReducer";
 import toast from "react-hot-toast";
+import ProfilePicture from "../../../componenets/ProfilePicture";
 
 const ProfilePage = () => {
 const dispatch = useDispatch();
@@ -77,9 +77,10 @@ const { mutate, isLoading:updateProfileIsLoading } = useMutation({
   return (
     <MainLayout>
       <section className="container mx-auto px-5 py-10">
+     
         <div className="w-full max-w-sm mx-auto">
+        <ProfilePicture avatar={profileData?.avatar} />
       
-            <ProfilePicture avatar={profileData?.avatar}/>
 
           <form onSubmit={handleSubmit(submitHandler)}>
             <div className="flex flex-col mb-6 w-full">
