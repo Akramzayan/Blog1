@@ -21,7 +21,7 @@ const {data: profileData,isLoading:profileIsLoading,error:profileError} = useQue
     queryKey:['profile']
 })
 
-const { mutate, isLoading } = useMutation({
+const { mutate, isLoading:updateProfileIsLoading } = useMutation({
     mutationFn: ({ name, email, password }) => {
       return updateProfile({
         token:userState.userInfo.token,
@@ -78,7 +78,7 @@ const { mutate, isLoading } = useMutation({
     <MainLayout>
       <section className="container mx-auto px-5 py-10">
         <div className="w-full max-w-sm mx-auto">
-            <p>{profileData?.name}</p>
+      
             <ProfilePicture avatar={profileData?.avatar}/>
 
           <form onSubmit={handleSubmit(submitHandler)}>
@@ -173,10 +173,10 @@ const { mutate, isLoading } = useMutation({
 
             <button
               type="submit"
-              disabled={!isValid || profileIsLoading }
+              disabled={!isValid || profileIsLoading || updateProfileIsLoading }
               className="bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg mb-6 disabled:opacity-80 disabled:cursor-not-allowed "
             >
-              Register
+              Update
             </button>
 
           </form>
