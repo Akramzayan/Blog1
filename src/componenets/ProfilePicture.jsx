@@ -44,19 +44,25 @@ const ProfilePicture = ({ avatar }) => {
     setOpenCrop(true);
   };
 
-  const handleDeleteImage = () => {
-    if (window.confirm("Do you want to delete your profile picture")) {
-      try {
-        const formData = new FormData();
-        formData.append("profilePicture", undefined);
+const handleDeleteImage =() => {
+  if(window.confirm('Are you sure you want to delete the profile picture?')){
+    try {
 
-        mutate({ token: userState.userInfo.token, formData: formData });
-      } catch (error) {
-        toast.error(error.message);
-        console.log(error);
-      }
+    
+
+      const formData = new FormData();
+      formData.append("profilePicture", undefined);
+  
+      mutate({ token: userState.userInfo.token, formData: formData });
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
     }
-  };
+
+};
+
+
+}
 
   return (
     <>
